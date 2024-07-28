@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 665a23ec76f3fe345b036b8aecf7564d, type: 3}
+  m_Name: X-Ray Vision Potion
+  m_EditorClassIdentifier: 
+  m_potionName: X-Ray Vision Potion
+  m_description: Lets its drinker see through solid, opaque, objects.
+  m_potionVisual: {fileID: 2800000, guid: 0acc921ff3830b545b09c98a9f4a5331, type: 3}
+  m_potionIngredients:
+  - {fileID: 11400000, guid: 0c29a7460a0a06e40a78e198d40c0c84, type: 2}
+  - {fileID: 11400000, guid: 059a5c893f8bdaf41a7e525a81347546, type: 2}
+  - {fileID: 11400000, guid: 4e2be00564dd7a54c95869ae9aa8eaf5, type: 2}

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 665a23ec76f3fe345b036b8aecf7564d, type: 3}
+  m_Name: Luck Potion
+  m_EditorClassIdentifier: 
+  m_potionName: Luck Potion
+  m_description: Makes its drinker luckier for awhile.
+  m_potionVisual: {fileID: 2800000, guid: 479f2e414c32e8046ad5f089ecb4e3da, type: 3}
+  m_potionIngredients:
+  - {fileID: 11400000, guid: d921ef4e09c110e4ca52ef173553bc39, type: 2}
+  - {fileID: 11400000, guid: 0c29a7460a0a06e40a78e198d40c0c84, type: 2}
+  - {fileID: 11400000, guid: 4e2be00564dd7a54c95869ae9aa8eaf5, type: 2}
