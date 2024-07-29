@@ -1,2 +1,5 @@
 # Remove automatic backups
 *.blend1
+
+# Remove personal links
+*.lnk
