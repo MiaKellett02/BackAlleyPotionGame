@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Rabbit's Foot
   m_EditorClassIdentifier: 
   m_ingredientName: Rabbit's Foot
-  m_ingredientVisual: {fileID: 0}
+  m_ingredientVisual: {fileID: 21300000, guid: 5320d6c78c9b7ca4c809213539970abe, type: 3}

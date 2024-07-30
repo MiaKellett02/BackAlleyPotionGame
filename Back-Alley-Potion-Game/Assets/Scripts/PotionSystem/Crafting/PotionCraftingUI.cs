@@ -25,6 +25,7 @@ public class PotionCraftingUI : MonoBehaviour {
 	[SerializeField] private Vector3 m_potionSpawnPos;
 
 	//Variables.
+	private PotionHolderScript m_currentPotion;
 
 	//Unity Functions.
 	private void Start() {
@@ -46,10 +47,16 @@ public class PotionCraftingUI : MonoBehaviour {
 
 	private void CraftingManager_OnPotionCrafted(object sender, CraftingManager.OnPotionCraftedEventArgs e) {
 		Debug.Log(e.craftedPotion.name + " was crafted");
-		//Spawn the potion.
+		//If there's a potion already despawn it.
+		if(m_currentPotion != null) {
+			Destroy(m_currentPotion.gameObject);
+		}
+
+		//Spawn the new potion.
 		GameObject potion = Instantiate(m_potionPrefab);
 		potion.transform.position = m_potionSpawnPos;
-		potion.GetComponent<PotionHolderScript>().SetPotionType(e.craftedPotion);
+		m_currentPotion = potion.GetComponent<PotionHolderScript>();
+		m_currentPotion.SetPotionType(e.craftedPotion);
 	}
 
 	private void OnDrawGizmosSelected() {
