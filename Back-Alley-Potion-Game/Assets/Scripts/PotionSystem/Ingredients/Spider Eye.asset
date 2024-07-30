@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Spider Eye
   m_EditorClassIdentifier: 
   m_ingredientName: Spider Eye
-  m_ingredientVisual: {fileID: 0}
+  m_ingredientVisual: {fileID: 21300000, guid: 6fbad5620512bc74987bc80a3a3a54d7, type: 3}
