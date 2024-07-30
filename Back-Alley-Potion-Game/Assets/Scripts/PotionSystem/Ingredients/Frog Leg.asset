@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ae1e59f0fec40649878a9faa0bfb93c, type: 3}
   m_Name: Frog Leg
   m_EditorClassIdentifier: 
-  m_ingredientName: 
+  m_ingredientName: Frog Leg
+  m_ingredientVisual: {fileID: 21300000, guid: de2dba56d9edab84fb7705f7af4962bd, type: 3}

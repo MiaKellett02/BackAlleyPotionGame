@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Squid Ink
   m_EditorClassIdentifier: 
   m_ingredientName: Squid Ink
+  m_ingredientVisual: {fileID: 21300000, guid: edfcd30c3a0ba164ead7c67dae4a0505, type: 3}

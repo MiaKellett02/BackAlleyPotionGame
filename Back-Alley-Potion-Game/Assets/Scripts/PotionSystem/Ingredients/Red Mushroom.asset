@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Red Mushroom
   m_EditorClassIdentifier: 
   m_ingredientName: Red Mushroom
+  m_ingredientVisual: {fileID: 21300000, guid: 90607c1cd0b484640af3ffa7da070477, type: 3}

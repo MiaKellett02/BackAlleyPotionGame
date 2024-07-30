@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_potionName: Super Speed Potion
   m_description: Gotta go fast, vrooooom......
-  m_potionVisual: {fileID: 2800000, guid: 5060ab7b9ee86e74494f178f49e47691, type: 3}
+  m_potionVisual: {fileID: 21300000, guid: 5060ab7b9ee86e74494f178f49e47691, type: 3}
   m_potionIngredients:
   - {fileID: 11400000, guid: 3c3057520ddf3704b83824f85e0b8977, type: 2}
   - {fileID: 11400000, guid: d921ef4e09c110e4ca52ef173553bc39, type: 2}

@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Carrot
   m_EditorClassIdentifier: 
   m_ingredientName: Carrot
+  m_ingredientVisual: {fileID: 21300000, guid: 2b1864af86422b04b860b7a42465c0bf, type: 3}

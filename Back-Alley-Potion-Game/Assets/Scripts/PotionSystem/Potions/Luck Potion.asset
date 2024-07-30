@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_potionName: Luck Potion
   m_description: Makes its drinker luckier for awhile.
-  m_potionVisual: {fileID: 2800000, guid: 479f2e414c32e8046ad5f089ecb4e3da, type: 3}
+  m_potionVisual: {fileID: 21300000, guid: 479f2e414c32e8046ad5f089ecb4e3da, type: 3}
   m_potionIngredients:
   - {fileID: 11400000, guid: d921ef4e09c110e4ca52ef173553bc39, type: 2}
   - {fileID: 11400000, guid: 0c29a7460a0a06e40a78e198d40c0c84, type: 2}

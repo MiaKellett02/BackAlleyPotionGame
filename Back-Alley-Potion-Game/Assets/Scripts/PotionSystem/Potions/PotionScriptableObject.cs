@@ -15,7 +15,7 @@ public class PotionScriptableObject : ScriptableObject {
 	//Variables.
 	[SerializeField] private string m_potionName;
 	[SerializeField][TextArea()] private string m_description;
-	[SerializeField] private Texture2D m_potionVisual;
+	[SerializeField] private Sprite m_potionVisual;
 	[SerializeField] private IngredientScriptableObject[] m_potionIngredients;
 
 	//Functions.
@@ -27,7 +27,7 @@ public class PotionScriptableObject : ScriptableObject {
 		return m_description;
 	}
 
-	public Texture2D GetPotionVisual() {
+	public Sprite GetPotionVisual() {
 		return m_potionVisual;
 	}
 
@@ -41,7 +41,7 @@ public class PotionScriptableObject : ScriptableObject {
 		string path = AssetDatabase.GetAssetPath(this);
 		string filename = System.IO.Path.GetFileName(path);
 		m_potionName = filename.Split(".")[0];
-		Debug.Log("Filename: " + filename);
+		//Debug.Log("Filename: " + filename);
 	}
 
 	private void OnValidate() {
@@ -49,6 +49,6 @@ public class PotionScriptableObject : ScriptableObject {
 		string path = AssetDatabase.GetAssetPath(this);
 		string filename = System.IO.Path.GetFileName(path);
 		m_potionName = filename.Split(".")[0];
-		Debug.Log("Filename: " + filename);
+		//Debug.Log("Filename: " + filename);
 	}
 }

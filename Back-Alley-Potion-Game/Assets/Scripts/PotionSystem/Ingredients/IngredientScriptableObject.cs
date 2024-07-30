@@ -14,14 +14,14 @@ using UnityEngine.UI;
 public class IngredientScriptableObject : ScriptableObject {
 	//Variables.
 	[SerializeField] private string m_ingredientName;
-	[SerializeField] private Texture2D m_ingredientVisual;
+	[SerializeField] private Sprite m_ingredientVisual;
 
 	//Functions.
 	public string GetIngredientName() {
 		return m_ingredientName;
 	}
 
-	public Texture2D GetIngredientVisual() {
+	public Sprite GetIngredientVisual() {
 		return m_ingredientVisual;
 	}
 
@@ -31,7 +31,7 @@ public class IngredientScriptableObject : ScriptableObject {
 		string path = AssetDatabase.GetAssetPath(this);
 		string filename = System.IO.Path.GetFileName(path);
 		m_ingredientName = filename.Split(".")[0];
-		Debug.Log("Filename: " + filename);
+		//Debug.Log("Filename: " + filename);
 	}
 
 	private void OnValidate() {
@@ -39,6 +39,6 @@ public class IngredientScriptableObject : ScriptableObject {
 		string path = AssetDatabase.GetAssetPath(this);
 		string filename = System.IO.Path.GetFileName(path);
 		m_ingredientName = filename.Split(".")[0];
-		Debug.Log("Filename: " + filename);
+		//Debug.Log("Filename: " + filename);
 	}
 }

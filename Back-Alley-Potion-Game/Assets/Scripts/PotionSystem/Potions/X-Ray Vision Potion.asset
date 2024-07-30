@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_potionName: X-Ray Vision Potion
   m_description: Lets its drinker see through solid, opaque, objects.
-  m_potionVisual: {fileID: 2800000, guid: 0acc921ff3830b545b09c98a9f4a5331, type: 3}
+  m_potionVisual: {fileID: 21300000, guid: 0acc921ff3830b545b09c98a9f4a5331, type: 3}
   m_potionIngredients:
   - {fileID: 11400000, guid: 0c29a7460a0a06e40a78e198d40c0c84, type: 2}
   - {fileID: 11400000, guid: 059a5c893f8bdaf41a7e525a81347546, type: 2}
