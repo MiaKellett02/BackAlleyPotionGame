@@ -16,11 +16,13 @@ public class PotionCraftingUI : MonoBehaviour {
 		public IngredientScriptableObject ingredient;
 		public Button button;
 	}
-	
+
 	//Variables to assign via the unity inspector.
 	[SerializeField] private List<CraftingUIStruct> m_craftingUI;
 	[SerializeField] private GameObject m_ingredientPrefab;
-	[SerializeField] private Vector3 m_spawnPos;
+	[SerializeField] private Vector3 m_ingredientSpawnPos;
+	[SerializeField] private GameObject m_potionPrefab;
+	[SerializeField] private Vector3 m_potionSpawnPos;
 
 	//Variables.
 
@@ -29,11 +31,11 @@ public class PotionCraftingUI : MonoBehaviour {
 		//Subscribe to event listeners
 		PotionGameManager.Instance.OnGameStateChanged += PotionGameManager_OnGameStateChanged;
 		CraftingManager.Instance.OnPotionCrafted += CraftingManager_OnPotionCrafted;
-		for(int i = 0; i < m_craftingUI.Count; i++) {
+		for (int i = 0; i < m_craftingUI.Count; i++) {
 			CraftingUIStruct craftingUI = m_craftingUI[i];
 			craftingUI.button.onClick.AddListener(() => {
 				GameObject ingredient = Instantiate(m_ingredientPrefab);
-				ingredient.transform.position = m_spawnPos;
+				ingredient.transform.position = m_ingredientSpawnPos;
 				ingredient.GetComponent<IngredientHolderScript>().SetIngredientType(craftingUI.ingredient);
 				Debug.Log("Should be spawning ingredient.");
 			});
@@ -44,16 +46,22 @@ public class PotionCraftingUI : MonoBehaviour {
 
 	private void CraftingManager_OnPotionCrafted(object sender, CraftingManager.OnPotionCraftedEventArgs e) {
 		Debug.Log(e.craftedPotion.name + " was crafted");
+		//Spawn the potion.
+		GameObject potion = Instantiate(m_potionPrefab);
+		potion.transform.position = m_potionSpawnPos;
+		potion.GetComponent<PotionHolderScript>().SetPotionType(e.craftedPotion);
 	}
 
 	private void OnDrawGizmosSelected() {
 		Gizmos.color = Color.magenta;
-		Gizmos.DrawSphere(m_spawnPos, 0.2f);
+		Gizmos.DrawSphere(m_ingredientSpawnPos, 0.2f);
+		Gizmos.color = Color.red;
+		Gizmos.DrawSphere(m_potionSpawnPos, 0.25f);
 	}
 
 	//Private Functions.
 	private void PotionGameManager_OnGameStateChanged(object sender, PotionGameManager.OnGameStateChangedEventArgs e) {
-		if(e.newGameState == PotionGameManager.GameStates.PotionMaking) {
+		if (e.newGameState == PotionGameManager.GameStates.PotionMaking) {
 			Show();
 		} else {
 			Hide();

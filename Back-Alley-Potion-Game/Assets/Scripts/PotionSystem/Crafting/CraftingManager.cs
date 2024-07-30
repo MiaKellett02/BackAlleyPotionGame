@@ -50,8 +50,8 @@ public class CraftingManager : MonoBehaviour {
 
 	//Private Functions.
 	private void CraftPotion() {
-		foreach(PotionScriptableObject potion in m_possiblePotions) {
-			if(DoCorrectIngredientsExist(potion.GetPotionIngredients(), m_ingredientsInCauldron.ToArray())) {
+		foreach (PotionScriptableObject potion in m_possiblePotions) {
+			if (DoCorrectIngredientsExist(potion.GetPotionIngredients(), m_ingredientsInCauldron.ToArray())) {
 				Debug.Log("Potion crafting success.");
 				OnPotionCrafted?.Invoke(this, new OnPotionCraftedEventArgs {
 					craftedPotion = potion
@@ -67,24 +67,32 @@ public class CraftingManager : MonoBehaviour {
 	}
 
 	private bool DoCorrectIngredientsExist(IngredientScriptableObject[] a_arr1, IngredientScriptableObject[] a_arr2) {
-		if(a_arr1.Length != a_arr2.Length) {
+		if (a_arr1.Length != a_arr2.Length) {
 			return false;//Different num ingredients added.
 		}
 
 		//Create dictionaries to compare ingredient counts.
 		Dictionary<IngredientScriptableObject, int> arr1Dictionary = new Dictionary<IngredientScriptableObject, int>();
-		foreach(IngredientScriptableObject ingredient in a_arr1) {
+		foreach (IngredientScriptableObject ingredient in a_arr1) {
+			if (!arr1Dictionary.ContainsKey(ingredient)) {
+				arr1Dictionary.Add(ingredient, 0);
+			}
 			arr1Dictionary[ingredient]++;
+			//Debug.Log(ingredient.name + ": " + arr1Dictionary[ingredient]);
 		}
 
 		Dictionary<IngredientScriptableObject, int> arr2Dictionary = new Dictionary<IngredientScriptableObject, int>();
-		foreach(IngredientScriptableObject ingredient in a_arr2) {
+		foreach (IngredientScriptableObject ingredient in a_arr2) {
+			if (!arr2Dictionary.ContainsKey(ingredient)) {
+				arr2Dictionary.Add(ingredient, 0);
+			}
 			arr2Dictionary[ingredient]++;
+			//Debug.Log(ingredient.name + ": " + arr2Dictionary[ingredient]);
 		}
 
 		//Compare the dictionaries.
-		foreach(KeyValuePair<IngredientScriptableObject, int> keyValuePair in arr1Dictionary) {
-			if(arr2Dictionary[keyValuePair.Key] != keyValuePair.Value) {
+		foreach (KeyValuePair<IngredientScriptableObject, int> keyValuePair in arr1Dictionary) {
+			if (!arr2Dictionary.ContainsKey(keyValuePair.Key)) {
 				//If any ingredient count doesn't match immediately return false.
 				return false;
 			}

@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ae1e59f0fec40649878a9faa0bfb93c, type: 3}
+  m_Script: {fileID: 11500000, guid: e008c01cfa8006f48a242302480ecd88, type: 3}
   m_Name: Spicy Pepper
   m_EditorClassIdentifier: 
   m_ingredientName: Spicy Pepper
