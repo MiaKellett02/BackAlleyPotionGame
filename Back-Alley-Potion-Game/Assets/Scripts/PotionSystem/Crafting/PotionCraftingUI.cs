@@ -4,12 +4,22 @@
 /// Date Created: 29/07/2024
 /// Purpose: To handle showing the user any UI related to crafting.
 ///////////////////////////////////////////////////////////////////////////////
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PotionCraftingUI : MonoBehaviour {
+	//Singleton.
+	public static PotionCraftingUI Instance;
+
+	//Events
+	public class OnPotionReturnEventArgs : EventArgs {
+		public PotionScriptableObject returnedPotion;
+	}
+	public event EventHandler<OnPotionReturnEventArgs> OnPotionReturn;
+
 	//Structs.
 	[System.Serializable]
 	public struct CraftingUIStruct {
@@ -23,11 +33,20 @@ public class PotionCraftingUI : MonoBehaviour {
 	[SerializeField] private Vector3 m_ingredientSpawnPos;
 	[SerializeField] private GameObject m_potionPrefab;
 	[SerializeField] private Vector3 m_potionSpawnPos;
+	[Header("UI")]
+	[SerializeField] private Button m_returnPotionButton;
+	[Header("Audio")]
+	[SerializeField] private AudioClip m_failureAudio;
+	[SerializeField] private AudioClip m_successAudio;
 
 	//Variables.
 	private PotionHolderScript m_currentPotion;
 
 	//Unity Functions.
+	private void Awake() {
+		Instance = this;
+	}
+
 	private void Start() {
 		//Subscribe to event listeners
 		PotionGameManager.Instance.OnGameStateChanged += PotionGameManager_OnGameStateChanged;
@@ -42,13 +61,31 @@ public class PotionCraftingUI : MonoBehaviour {
 			});
 		}
 
+		m_returnPotionButton.onClick.AddListener(() => {
+			if (m_currentPotion == null) {
+				return;
+			} else {
+				//Destroy the current potion gameobject
+				Destroy(m_currentPotion.gameObject, 1.0f);
+
+				//Invoke return to customer event.
+				OnPotionReturn?.Invoke(this, new OnPotionReturnEventArgs {
+					returnedPotion = m_currentPotion.GetPotionType()
+				});
+			}
+		});
+		m_returnPotionButton.gameObject.SetActive(false);
+
 		Hide();
 	}
 
 	private void CraftingManager_OnPotionCrafted(object sender, CraftingManager.OnPotionCraftedEventArgs e) {
+		//Ensure return potion button is active.
+		m_returnPotionButton.gameObject.SetActive(true);
+
 		Debug.Log(e.craftedPotion.name + " was crafted");
 		//If there's a potion already despawn it.
-		if(m_currentPotion != null) {
+		if (m_currentPotion != null) {
 			Destroy(m_currentPotion.gameObject);
 		}
 
@@ -57,6 +94,14 @@ public class PotionCraftingUI : MonoBehaviour {
 		potion.transform.position = m_potionSpawnPos;
 		m_currentPotion = potion.GetComponent<PotionHolderScript>();
 		m_currentPotion.SetPotionType(e.craftedPotion);
+
+		if (e.failure) {
+			//Play failure sound.
+			AudioSource.PlayClipAtPoint(m_failureAudio, m_potionSpawnPos);
+		} else {
+			//Play success sound.
+			AudioSource.PlayClipAtPoint(m_successAudio, m_potionSpawnPos);
+		}
 	}
 
 	private void OnDrawGizmosSelected() {

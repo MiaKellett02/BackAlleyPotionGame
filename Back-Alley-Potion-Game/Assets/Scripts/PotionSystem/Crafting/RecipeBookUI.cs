@@ -6,6 +6,7 @@
 ///////////////////////////////////////////////////////////
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +20,7 @@ public class RecipeBookUI : MonoBehaviour {
 	[SerializeField] private Image m_ingredientTwo;
 	[SerializeField] private Image m_ingredientThree;
 	[SerializeField] private Image m_potionImage;
+	[SerializeField] private TextMeshProUGUI m_potionOutputText;
 
 	//Private Variables.
 	private int m_currentIndex = 0;
@@ -32,13 +34,17 @@ public class RecipeBookUI : MonoBehaviour {
 	private void Start() {
 		m_leftButton.onClick.AddListener(() => {
 			m_currentIndex--;
-			m_currentIndex = Mathf.Clamp(m_currentIndex, 0, m_potions.Count - 1);
+			if (m_currentIndex < 0) {
+				m_currentIndex = m_potions.Count - 1;
+			}
 			UpdateUI();
 		});
 
 		m_rightButton.onClick.AddListener(() => {
 			m_currentIndex++;
-			m_currentIndex = Mathf.Clamp(m_currentIndex, 0, m_potions.Count - 1);
+			if (m_currentIndex > m_potions.Count - 1) {
+				m_currentIndex = 0;
+			}
 			UpdateUI();
 		});
 
@@ -58,5 +64,6 @@ public class RecipeBookUI : MonoBehaviour {
 
 		//Update output potion
 		m_potionImage.sprite = currentPotion.GetPotionVisual();
+		m_potionOutputText.text = currentPotion.name;
 	}
 }

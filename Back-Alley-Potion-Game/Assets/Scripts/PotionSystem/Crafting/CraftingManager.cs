@@ -16,6 +16,7 @@ public class CraftingManager : MonoBehaviour {
 	//Events
 	public class OnPotionCraftedEventArgs : EventArgs {
 		public PotionScriptableObject craftedPotion;
+		public bool failure;
 	}
 	public event EventHandler<OnPotionCraftedEventArgs> OnPotionCrafted;
 
@@ -54,7 +55,8 @@ public class CraftingManager : MonoBehaviour {
 			if (DoCorrectIngredientsExist(potion.GetPotionIngredients(), m_ingredientsInCauldron.ToArray())) {
 				Debug.Log("Potion crafting success.");
 				OnPotionCrafted?.Invoke(this, new OnPotionCraftedEventArgs {
-					craftedPotion = potion
+					craftedPotion = potion,
+					failure = false
 				});
 				return;
 			}
@@ -62,7 +64,8 @@ public class CraftingManager : MonoBehaviour {
 
 		Debug.Log("Potion crafting failure.");
 		OnPotionCrafted?.Invoke(this, new OnPotionCraftedEventArgs {
-			craftedPotion = m_failedPotion
+			craftedPotion = m_failedPotion,
+			failure = true
 		});
 	}
 

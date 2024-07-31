@@ -38,11 +38,37 @@ public class PotionGameManager : MonoBehaviour {
 	//Variables to assign via the unity inspector.
 	[SerializeField] private float m_fadeTime = 1.0f;
 	[SerializeField] private GameStates m_startingGameState = GameStates.FirstGameLoad;
+	[SerializeField] private List<DayScriptableObject> m_days;
 
 	//Private Variables.
 	private GameStates m_currentGameState = GameStates.None;
+	private Customer m_currentCustomer;
+	private bool m_potionReturned = false;
+	private PotionScriptableObject m_returnedPotionType;
 
 	//Public Functions.
+	public DayScriptableObject GetCurrentDay() {
+		return m_days[0];
+	}
+
+	public Customer GetCurrentCustomer() {
+		if (m_currentCustomer == null) {
+			m_currentCustomer = GetCurrentDay().GetNextCustomer();
+		}
+		return m_currentCustomer;
+	}
+
+	public void CustomerOrderTaken() {
+		ChangeGameState(GameStates.PotionMaking);
+	}
+
+	public void CustomerOrderReturned() {
+		m_potionReturned = true;
+	}
+
+	public PotionScriptableObject GetReturnedPotion() {
+		return m_returnedPotionType;
+	}
 
 	//Unity Functions.
 	private void Awake() {
@@ -51,6 +77,7 @@ public class PotionGameManager : MonoBehaviour {
 
 	private void Start() {
 		//Subscribe to events.
+		PotionCraftingUI.Instance.OnPotionReturn += PotionCraftingUI_OnPotionReturn;
 
 		//Setup starting gamestate.
 		ChangeGameState(m_startingGameState);
@@ -68,38 +95,42 @@ public class PotionGameManager : MonoBehaviour {
 				}
 				break;
 			case GameStates.DayStart:
-				bool dayStartAnimationFinished = false;
+				bool dayStartAnimationFinished = true;
 				if (dayStartAnimationFinished) {
 					ChangeGameState(GameStates.CustomerOrdering);
 				}
 				break;
 			case GameStates.CustomerOrdering:
+				m_potionReturned = false;
 				bool customerOrderMade = false;
 				if (customerOrderMade) {
 					ChangeGameState(GameStates.PotionMaking);
 				}
 				break;
 			case GameStates.PotionMaking:
-				bool potionFinished = false;
-				if (potionFinished) {
-					ChangeGameState(GameStates.ReturnPotion);
-				}
 				break;
 			case GameStates.ReturnPotion:
-				bool potionReturned = false;
-				if (potionReturned) {
+				bool anyCustomersLeft = this.GetCurrentDay().AnyCustomersLeft();
+				if (m_potionReturned && !anyCustomersLeft) {
 					ChangeGameState(GameStates.NewspaperRevealed);
+				} else if (m_potionReturned && anyCustomersLeft) {
+					m_currentCustomer = null;
+					ChangeGameState(GameStates.CustomerOrdering);
 				}
 				break;
 			case GameStates.NewspaperRevealed:
-				bool newspaperClosed = false;
+				bool newspaperClosed = true;
 				if (newspaperClosed) {
 					ChangeGameState(GameStates.DayEnd);
 				}
 				break;
 			case GameStates.DayEnd:
-				bool dayEndedAnimationFinished = false;
-				bool allDaysFinished = false;
+				bool dayEndedAnimationFinished = true;
+
+
+
+				//Check if all the days have ended.
+				bool allDaysFinished = m_days.Count <= 0;
 				if (dayEndedAnimationFinished && allDaysFinished) {
 					ChangeGameState(GameStates.LastDayCompleted);
 				} else {
@@ -142,5 +173,17 @@ public class PotionGameManager : MonoBehaviour {
 			//Fade back in.
 			FadeUI.Instance.FadeIn(m_fadeTime, null);
 		}
+		if (m_currentGameState == GameStates.DayEnd) {
+			//Remove the current day from the list.
+			m_days.Remove(m_days[0]);
+		} else if (m_currentGameState == GameStates.CustomerOrdering) {
+			//Get the next customer.
+			m_currentCustomer = this.GetCurrentDay().GetNextCustomer();
+		}
+	}
+
+	private void PotionCraftingUI_OnPotionReturn(object sender, PotionCraftingUI.OnPotionReturnEventArgs e) {
+		m_returnedPotionType = e.returnedPotion;
+		ChangeGameState(GameStates.ReturnPotion);
 	}
 }
