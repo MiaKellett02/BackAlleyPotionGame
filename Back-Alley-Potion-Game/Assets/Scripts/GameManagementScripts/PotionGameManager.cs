@@ -143,6 +143,10 @@ public class PotionGameManager : MonoBehaviour {
 			default:
 				break;
 		}
+
+		if (Input.GetKeyDown(KeyCode.Escape)){
+			SceneManager.LoadScene(0);
+		}
 	}
 
 	private void OnValidate() {
