@@ -89,9 +89,9 @@ public class PotionGameManager : MonoBehaviour {
 				Debug.Log("Gamestate not set.");
 				break;
 			case GameStates.FirstGameLoad:
-				bool firstGameLoadAnimationFinished = false;
+				bool firstGameLoadAnimationFinished = true;
 				if (firstGameLoadAnimationFinished) {
-					ChangeGameState(GameStates.DayStart);
+					ChangeGameState(GameStates.CustomerOrdering);
 				}
 				break;
 			case GameStates.DayStart:
@@ -144,8 +144,10 @@ public class PotionGameManager : MonoBehaviour {
 				break;
 		}
 
-		if (Input.GetKeyDown(KeyCode.Escape)){
-			SceneManager.LoadScene(0);
+		if (Input.GetKeyDown(KeyCode.Escape)) {
+			FadeUI.Instance.FadeOut(2.0f, () => {
+				SceneManager.LoadScene(0);
+			});
 		}
 	}
 

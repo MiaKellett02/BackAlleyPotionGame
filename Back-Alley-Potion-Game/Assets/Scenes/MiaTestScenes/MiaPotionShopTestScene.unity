@@ -7101,7 +7101,7 @@ PrefabInstance:
     - target: {fileID: 9140654923823718863, guid: f7ef67cdb5665d247a24a98d9761a311,
         type: 3}
       propertyPath: m_startingGameState
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9140654923823718863, guid: f7ef67cdb5665d247a24a98d9761a311,
         type: 3}
