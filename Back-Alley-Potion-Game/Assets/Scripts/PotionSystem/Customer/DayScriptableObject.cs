@@ -10,25 +10,34 @@ public class DayScriptableObject : ScriptableObject {
 	[SerializeField] private Customer m_specialCustomer;
 	[SerializeField] private int m_numRandomCustomers;
 
-	private List<Customer> m_customers = new List<Customer>();
 	private bool dayInitialized = false;
 
 	//Public Functions.
-	public void Initialise() {
+	public List<Customer> Initialise() {
+		Debug.Log("Initialising Day");
 		//Initialize customers.
-		m_customers = new List<Customer>();
-		m_customers.Add(m_specialCustomer);
+		List<Customer> customers = new List<Customer>();
+		customers.Add(m_specialCustomer);
 		List<string> possibleFail = new List<string> {
 				"Oi I wanted that potion.",
 				"Oh that's a shame, I'll have to take my business elsewhere.",
 				"You'll pay for this Wizard >:(",
 				"Watch your back shopkeeper",
-				".............."
+				"..............",
+				"How could you, I was looking forward to using that.",
+				"When are you going to learn you don't mess with the likes of me (whispers 'damn wizards').",
+				"Today is the last day you will ever make a mistake like not giving me what I want.",
+				"Are you dumb? How could you get that wrong?",
+				"I have no words....."
 			};
 		List<string> possibleSuccess = new List<string> {
 				"Muahahaha you will be rewarded in time Wizard.",
 				"Oi thank you boss man, you're a legend innit.",
-				"Great work Wizard, I will be back for more....."
+				"Great work Wizard, I will be back for more.....",
+				"Thanks Wizard, the potion will be put to good use.",
+				"You work towards my 'cause' is appreciated shopkeep. I will make sure to keep note of that.",
+				"If any of my resistance buddies need a potion I'll recommend you. Good work Wizard.",
+				"Am I mad for taking whatever potion you give me? Maybe? But it looks right to me. Good work.",
 			};
 		List<string> possibleOrderMessage = new List<string> {
 			"Oi bossman, give a ",
@@ -51,35 +60,10 @@ public class DayScriptableObject : ScriptableObject {
 
 			//Create a random customer and add them to the list..
 			Customer newCustomer = new Customer(message, potion, failReaction, successReaction, false);
-			m_customers.Add(newCustomer);
-		}
-	}
-
-	public Customer GetNextCustomer() {
-		if(dayInitialized == false) {
-			Initialise();
+			customers.Add(newCustomer);
 		}
 
-		if(m_customers.Count <= 0) {
-			return null; //No customers left.
-		}
-
-		//get the customer.
-		Customer nextCustomer = m_customers[UnityEngine.Random.Range(0, m_customers.Count)];
-
-		//Remove them from the pool.
-		m_customers.Remove(nextCustomer);
-
-		//Return the customer.
-		return nextCustomer;
-	}
-
-	public bool AnyCustomersLeft() {
-		if(m_customers.Count <= 0) {
-			return false;
-		} else {
-			return true;
-		}
+		return customers;
 	}
 
 	//Private Functions.

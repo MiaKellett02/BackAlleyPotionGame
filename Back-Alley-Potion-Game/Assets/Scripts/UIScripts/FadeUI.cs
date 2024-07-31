@@ -27,7 +27,7 @@ public class FadeUI : MonoBehaviour {
 	//Public functions.
 	public void FadeIn(float a_fadeTime, Action a_onFadeCompleted) {
 		if (m_fadeCoroutine != null) {
-			Debug.LogError("Already running a fade, cancelling previous one.");
+			//Debug.LogError("Already running a fade, cancelling previous one.");
 			StopCoroutine(m_fadeCoroutine);
 		}
 
@@ -36,7 +36,7 @@ public class FadeUI : MonoBehaviour {
 
 	public void FadeOut(float a_fadeTime, Action a_onFadeCompleted) {
 		if (m_fadeCoroutine != null) {
-			Debug.LogError("Already running a fade, cancelling previous one.");
+			//Debug.LogError("Already running a fade, cancelling previous one.");
 			StopCoroutine(m_fadeCoroutine);
 		}
 

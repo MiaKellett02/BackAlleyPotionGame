@@ -49,6 +49,7 @@ public class ReturnOrderUI : MonoBehaviour
 		if (e.newGameState == PotionGameManager.GameStates.ReturnPotion) {
 			//Show the UI.
 			Show();
+			m_speechBubble.SetActive(false);
 
 			//Start the customer entry sequence.
 			Invoke("CustomerEntrySequence", 2.0f);

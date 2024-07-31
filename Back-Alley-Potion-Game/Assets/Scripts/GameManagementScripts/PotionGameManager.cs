@@ -43,18 +43,14 @@ public class PotionGameManager : MonoBehaviour {
 	//Private Variables.
 	private GameStates m_currentGameState = GameStates.None;
 	private Customer m_currentCustomer;
+	private List<Customer> m_customers;
 	private bool m_potionReturned = false;
+	private bool m_finishedLoading = true;
 	private PotionScriptableObject m_returnedPotionType;
 
 	//Public Functions.
-	public DayScriptableObject GetCurrentDay() {
-		return m_days[0];
-	}
 
 	public Customer GetCurrentCustomer() {
-		if (m_currentCustomer == null) {
-			m_currentCustomer = GetCurrentDay().GetNextCustomer();
-		}
 		return m_currentCustomer;
 	}
 
@@ -84,6 +80,16 @@ public class PotionGameManager : MonoBehaviour {
 	}
 
 	private void Update() {
+		if (Input.GetKeyDown(KeyCode.Escape)) {
+			FadeUI.Instance.FadeOut(2.0f, () => {
+				SceneManager.LoadScene(0);
+			});
+		}
+
+		if (!m_finishedLoading) {
+			return;
+		}
+
 		switch (m_currentGameState) {
 			case GameStates.None:
 				Debug.Log("Gamestate not set.");
@@ -91,7 +97,7 @@ public class PotionGameManager : MonoBehaviour {
 			case GameStates.FirstGameLoad:
 				bool firstGameLoadAnimationFinished = true;
 				if (firstGameLoadAnimationFinished) {
-					ChangeGameState(GameStates.CustomerOrdering);
+					ChangeGameState(GameStates.DayStart);
 				}
 				break;
 			case GameStates.DayStart:
@@ -110,7 +116,7 @@ public class PotionGameManager : MonoBehaviour {
 			case GameStates.PotionMaking:
 				break;
 			case GameStates.ReturnPotion:
-				bool anyCustomersLeft = this.GetCurrentDay().AnyCustomersLeft();
+				bool anyCustomersLeft = m_customers.Count > 0;
 				if (m_potionReturned && !anyCustomersLeft) {
 					ChangeGameState(GameStates.NewspaperRevealed);
 				} else if (m_potionReturned && anyCustomersLeft) {
@@ -120,34 +126,23 @@ public class PotionGameManager : MonoBehaviour {
 				break;
 			case GameStates.NewspaperRevealed:
 				bool newspaperClosed = true;
-				if (newspaperClosed) {
+				bool allDaysFinished = m_days.Count <= 0;
+				if (newspaperClosed && !allDaysFinished) {
 					ChangeGameState(GameStates.DayEnd);
+				} else if (newspaperClosed && allDaysFinished) {
+					ChangeGameState(GameStates.LastDayCompleted);
 				}
 				break;
 			case GameStates.DayEnd:
 				bool dayEndedAnimationFinished = true;
-
-
-
-				//Check if all the days have ended.
-				bool allDaysFinished = m_days.Count <= 0;
-				if (dayEndedAnimationFinished && allDaysFinished) {
-					ChangeGameState(GameStates.LastDayCompleted);
-				} else {
+				if (dayEndedAnimationFinished) {
 					ChangeGameState(GameStates.DayStart);
 				}
 				break;
 			case GameStates.LastDayCompleted:
-				Debug.LogError("HAVE NOT IMPLEMENTED SCENE LOADING YET.");
 				break;
 			default:
 				break;
-		}
-
-		if (Input.GetKeyDown(KeyCode.Escape)) {
-			FadeUI.Instance.FadeOut(2.0f, () => {
-				SceneManager.LoadScene(0);
-			});
 		}
 	}
 
@@ -159,8 +154,10 @@ public class PotionGameManager : MonoBehaviour {
 
 	//Private Functions.
 	private void ChangeGameState(GameStates a_newState) {
+		m_finishedLoading = false;
+
 		//Start the fade.
-		if (a_newState != GameStates.FirstGameLoad) {
+		if (a_newState != GameStates.FirstGameLoad && a_newState != GameStates.DayStart) {
 			FadeUI.Instance.FadeOut(m_fadeTime, FinishChangingGameState);
 		} else {
 			FadeUI.Instance.FadeIn(m_fadeTime, FinishChangingGameState);
@@ -174,22 +171,35 @@ public class PotionGameManager : MonoBehaviour {
 		OnGameStateChanged?.Invoke(this, new OnGameStateChangedEventArgs {
 			newGameState = m_currentGameState
 		});
-
+		Debug.Log("New game state: " + m_currentGameState.ToString());
+		m_finishedLoading = true;
 		if (m_currentGameState != GameStates.FirstGameLoad) {
 			//Fade back in.
 			FadeUI.Instance.FadeIn(m_fadeTime, null);
 		}
-		if (m_currentGameState == GameStates.DayEnd) {
+		if (m_currentGameState == GameStates.NewspaperRevealed) {
 			//Remove the current day from the list.
 			m_days.Remove(m_days[0]);
+		} else if (m_currentGameState == GameStates.DayStart) {
+			m_customers = this.GetCurrentDay().Initialise();
 		} else if (m_currentGameState == GameStates.CustomerOrdering) {
 			//Get the next customer.
-			m_currentCustomer = this.GetCurrentDay().GetNextCustomer();
+			m_currentCustomer = m_customers[UnityEngine.Random.Range(0, m_customers.Count)];
+			m_customers.Remove(m_currentCustomer);
+		} else if (m_currentGameState == GameStates.LastDayCompleted) {
+			FadeUI.Instance.FadeOut(5.0f, () => {
+				SceneManager.LoadScene(0);
+			});
 		}
+
 	}
 
 	private void PotionCraftingUI_OnPotionReturn(object sender, PotionCraftingUI.OnPotionReturnEventArgs e) {
 		m_returnedPotionType = e.returnedPotion;
 		ChangeGameState(GameStates.ReturnPotion);
+	}
+
+	private DayScriptableObject GetCurrentDay() {
+		return m_days[0];
 	}
 }

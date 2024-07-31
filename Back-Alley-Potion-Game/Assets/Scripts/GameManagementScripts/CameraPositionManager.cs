@@ -44,16 +44,16 @@ public class CameraPositionManager : MonoBehaviour {
 				this.transform.rotation = m_customerOrderingPos.rotation;
 				break;
 			case PotionGameManager.GameStates.NewspaperRevealed:
-				this.transform.position = m_defaultPos.position;
-				this.transform.rotation = m_defaultPos.rotation;
+				this.transform.position = m_customerOrderingPos.position;
+				this.transform.rotation = m_customerOrderingPos.rotation;
 				break;
 			case PotionGameManager.GameStates.DayEnd:
 				this.transform.position = m_customerOrderingPos.position;
 				this.transform.rotation = m_customerOrderingPos.rotation;
 				break;
 			case PotionGameManager.GameStates.LastDayCompleted:
-				this.transform.position = m_defaultPos.position;
-				this.transform.rotation = m_defaultPos.rotation;
+				this.transform.position = m_customerOrderingPos.position;
+				this.transform.rotation = m_customerOrderingPos.rotation;
 				break;
 		}
 	}

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5ca2439979ca0c4d9a248ee7f5c20f1, type: 3}
-  m_Name: Day1
+  m_Name: EndlessDay
   m_EditorClassIdentifier: 
   m_possiblePotions:
   - {fileID: 11400000, guid: 18afc540f1bcfbb45a9e9cbfc9efffbe, type: 2}
@@ -20,10 +20,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 611e5ecdb5685b7469d22b3936223503, type: 2}
   - {fileID: 11400000, guid: b2d3e6caf68471746be34de607cd90be, type: 2}
   m_specialCustomer:
-    message: I lost a ring in the sink, to help me reach it can I get a
-    desiredPotion: {fileID: 11400000, guid: 5a958c0280bbe334883e16cba85c17f9, type: 2}
-    failureReaction: This doesn't look right, I think I've lost my ring forever.
-    successReaction: Thank you so much, I'll be able to get my precious ring back
-      now.
+    message: 'OI TODAY YOU WILL GIVE ME A '
+    desiredPotion: {fileID: 11400000, guid: b2d3e6caf68471746be34de607cd90be, type: 2}
+    failureReaction: Oi I can't see through walls with this
+    successReaction: I can see your stock of cash now haha
     isSpecial: 1
-  m_numRandomCustomers: 3
+  m_numRandomCustomers: 500
