@@ -37,18 +37,22 @@ public class PotionScriptableObject : ScriptableObject {
 
 	//Unity Functions.
 	private void OnEnable() {
+#if UNITY_EDITOR
 		//Get the name of the ingredient.
 		string path = AssetDatabase.GetAssetPath(this);
 		string filename = System.IO.Path.GetFileName(path);
 		m_potionName = filename.Split(".")[0];
 		//Debug.Log("Filename: " + filename);
+#endif
 	}
 
 	private void OnValidate() {
+#if UNITY_EDITOR
 		//Get the name of the ingredient.
 		string path = AssetDatabase.GetAssetPath(this);
 		string filename = System.IO.Path.GetFileName(path);
 		m_potionName = filename.Split(".")[0];
 		//Debug.Log("Filename: " + filename);
+#endif
 	}
 }
